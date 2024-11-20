@@ -1,7 +1,11 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
-class User extends Model {}
+class User extends Model {
+  public userId!: number;
+  public phoneNo!: string;
+  isProfileCreated!: boolean;
+}
 
 User.init(
   {
@@ -10,18 +14,13 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    phoneNo: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    isProfileCreated: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   {

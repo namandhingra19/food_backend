@@ -1,53 +1,54 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
-class Cuisine extends Model {
-  public cuisineId!: number;
-  public categoryId!: number;
+class MediaLibrary extends Model {
+  public mediaLibraryId!: number;
+  public mediaType!: string;
   public title!: string;
-  public cuisineType!: string;
-  public regularPrice!: number;
-  public largePrice!: number;
+  public url!: string;
+  public createdBy!: number;
+  public updatedBy!: number;
+  public deletedBy!: number;
 }
 
-Cuisine.init(
+MediaLibrary.init(
   {
-    cuisineId: {
+    mediaLibraryId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    categoryId: {
-      type: DataTypes.INTEGER,
+    mediaType: {
+      type: DataTypes.STRING,
       allowNull: false,
-      references: {
-        model: "categories",
-        key: "categoryId",
-      },
     },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    cuisineType: {
+    url: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    regularPrice: {
+    createdBy: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
-    largePrice: {
+    updatedBy: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
+    },
+    deletedBy: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
   },
   {
     sequelize,
-    modelName: "cuisines",
+    modelName: "media_libraries",
     timestamps: true,
     paranoid: true,
   }
 );
 
-export default Cuisine;
+export default MediaLibrary;

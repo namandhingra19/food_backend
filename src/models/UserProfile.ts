@@ -1,7 +1,13 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
-class UserProfile extends Model {}
+class UserProfile extends Model {
+  public userProfileId!: number;
+  public userId!: number;
+  public name!: string;
+  public profileType!: string;
+  public address!: string;
+}
 
 UserProfile.init(
   {
@@ -12,23 +18,30 @@ UserProfile.init(
     },
     userId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "userId",
+      },
     },
-    createdAt: {
-      type: DataTypes.DATE,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
-    updatedAt: {
-      type: DataTypes.DATE,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
-    deletedAt: {
-      type: DataTypes.DATE,
-      defaultValue: null,
+    profileType: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
     sequelize,
     modelName: "user_profiles",
+    timestamps: true,
+    paranoid: true,
   }
 );
 

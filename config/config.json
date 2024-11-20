@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "food",
+    "password": "food",
+    "database": "food",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "food",
+    "password": "food",
+    "database": "food",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "food",
+    "password": "food",
+    "database": "food",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}
