@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Order - <%= orderId %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 24px;
+      text-align: center;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .order-details {
+      margin: 20px 0;
+      border-top: 2px solid #e0e0e0;
+      border-bottom: 2px solid #e0e0e0;
+      padding: 10px 0;
+    }
+    .order-details ul {
+      list-style: none;
+      padding: 0;
+    }
+    .order-details li {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+    .order-summary {
+      background-color: #f9f9f9;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 4px;
+    }
+    .order-summary p {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>New Order Placed - Order #<%= orderId %></h1>
+    <p>Hello,</p>
+    <p>A new order has been placed by <strong><%= customerName %></strong>. Below are the details:</p>
+
+    <div class="order-details">
+      <ul>
+        <li><strong>Order ID:</strong> <%= orderId %></li>
+        <li><strong>Order Date:</strong> <%= orderDate %></li>
+        <li><strong>Customer Name:</strong> <%= customerName %></li>
+        <li><strong>Customer Phone:</strong> <%= customerPhoneNo %></li>
+        <li><strong>Customer Address:</strong> <%= customerAddress %></li>
+        <li><strong>Items:</strong>
+          <ul>
+            <% items.forEach(item => { %>
+              <li><%= item.name %> - Quantity: <%= item.quantity %>, Price: $<%= item.price %></li>
+            <% }) %>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="order-summary">
+      <p>Total Amount: $<%= totalAmount %></p>
+    </div>
+
+    <p>Thank you for your attention to this new order!</p>
+
+    <div class="footer">
+      <p>Powered by Your Company</p>
+    </div>
+  </div>
+</body>
+</html>

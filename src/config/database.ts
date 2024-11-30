@@ -11,6 +11,7 @@ const sequelize = new Sequelize(PG_DATABASE, PG_USERNAME, PG_PASSWORD, {
   port: PG_PORT,
   dialect: "postgres",
   logging: false,
+  timezone: "+05:30",
 });
 
 export default sequelize;

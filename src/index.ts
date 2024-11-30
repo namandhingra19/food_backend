@@ -4,6 +4,9 @@ import { Express } from "express";
 import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/authRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
+import cuisineRoutes from "./routes/cuisineRoutes";
+import orderRoutes from "./routes/orderRoutes";
+import adminPanelMediaLibraryRoutes from "./routes/adminPanelMediaLibraryRoutes";
 import sequelize from "./config/database";
 import cors from "cors";
 import { validateAdmin, validateToken } from "./helpers/validateToken";
@@ -21,11 +24,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
-// app.use(validateToken);
-// app.use(validateAdmin);
+app.use(validateToken);
+app.use(validateAdmin);
 app.use(`/api/${version}/user`, userRoutes);
 app.use(`/api/${version}/auth`, authRoutes);
 app.use(`/api/${version}/category`, categoryRoutes);
+app.use(`/api/${version}/cuisine`, cuisineRoutes);
+app.use(`/api/${version}/order`, orderRoutes);
+app.use(`/api/${version}/adminPanel`, adminPanelMediaLibraryRoutes);
 sequelize
   .sync()
   .then(() => {

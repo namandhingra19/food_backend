@@ -5,6 +5,7 @@ class Cuisine extends Model {
   public cuisineId!: number;
   public categoryId!: number;
   public title!: string;
+  public description!: string;
   public cuisineType!: string;
   public regularPrice!: number;
   public largePrice!: number;
@@ -26,6 +27,10 @@ Cuisine.init(
       },
     },
     title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
       type: DataTypes.STRING,
       allowNull: false,
     },

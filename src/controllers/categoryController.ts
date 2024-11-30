@@ -1,27 +1,26 @@
 import { Request, Response } from "express";
 import uploadFileHelper from "../helpers/uploadFileHelper";
 import { Category, MediaLibrary, MediaLibraryCategory } from "../models";
-import { CreateCategoryPayload } from "../types/Category";
+import { CreateCategoryFormData, ListCategoryPayload } from "../types/Category";
 import {
   MediaLibraryCategoryPayload,
   MediaLibraryPayload,
 } from "../types/MediaLibrary";
+import { parseObject } from "../helpers/sqlHelper";
+import { Sequelize } from "sequelize";
 
 class CategoryController {
-  public async list(req: Request, res: Response): Promise<any> {}
   public async create(req: Request, res: Response): Promise<any> {
     const { userProfileId } = req?.user!;
     try {
       const mediaLibraryPayload: MediaLibraryPayload[] = [];
-      console.log("req.files--");
-      console.log(req.files);
       if (req.files)
         for (const file of req.files) {
           const mediaLibraryInput =
             uploadFileHelper.generateUploadFolderLink(file);
           mediaLibraryPayload.push(mediaLibraryInput);
         }
-      const payload: CreateCategoryPayload = req.body;
+      const payload: CreateCategoryFormData = req.body;
       const { title } = payload;
       const category = await Category.create({
         title,
@@ -51,6 +50,55 @@ class CategoryController {
         message: "Error creating category",
         success: false,
       });
+    }
+  }
+
+  public async list(req: Request, res: Response): Promise<any> {
+    try {
+      const payload: ListCategoryPayload = req.body;
+      const { limit, offset, filter } = payload;
+      const { rows, count } = await Category.findAndCountAll({
+        attributes: [
+          "categoryId",
+          "title",
+          [
+            Sequelize.col("category.mediaLibrary_category.title"),
+            "mediaLibraryTitle",
+          ],
+          [Sequelize.col("category.mediaLibrary_category.url"), "mediaUrl"],
+        ],
+        where: {
+          ...parseObject(filter),
+        },
+        include: [
+          {
+            model: MediaLibraryCategory,
+            as: "category",
+            attributes: [],
+            required: false,
+            include: [
+              {
+                model: MediaLibrary,
+                as: "mediaLibrary_category",
+                attributes: [],
+                required: true,
+              },
+            ],
+          },
+        ],
+        raw: true,
+        offset,
+        limit,
+        order: [["createdAt", "DESC"]],
+      });
+      res.status(200).json({
+        message: "Categories Fetched Successfully",
+        data: rows,
+        total: count,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Error fetching Category" });
     }
   }
   public async update(req: Request, res: Response): Promise<any> {}
